@@ -40,7 +40,7 @@ $ brew install docker docker-compose
 
 ### Give your app permissions
 
-Create an Earbot app on [Slack](https://api.slack.com/apps?new_app=1).
+Create an app named Earbot on [Slack](https://api.slack.com/apps?new_app=1).
 
 Navigate to **OAuth & Permissions** on the sidebar to add scopes to your app.
 
@@ -68,14 +68,73 @@ Copy and paste the Bot User OAuth Access Token somewhere locally after the app i
 
 Navigate to the "Basic Information" tab near the top of the left side navigation menu, click it and then scroll down and view and copy and paste the "Signing Secret" as well.
 
-### Getting up and running locally
+### Getting up and running with Docker
+
+Clone this repo and navigate to the directory you've cloned to locally. Open and edit `docker-compose.yml`, replacing the following two environment variables with the token and secret you just saved:
+
+```
+      SLACK_BOT_TOKEN: YOUR_TOKEN_HERE
+      SLACK_SIGNING_SECRET: YOUR_SECRET_HERE
+```
+
+Save the file, and run `docker-compose up` in your console, this will build the Docker image and launch the Earbot app!
+
+### Configuring ngrok
+
+In order to route Slack events and slash commands to our local Earbot app, we'll use [ngrok](https://ngrok.com/). Download, unzip, and move the ngrok executable wherever you'd like locally. From the directory that contains ngrok, run the following command:
+
+```
+$ ./ngrok http 3000
+```
+
+Executing this command will do the following:
+- Route HTTP traffic destined for our ephemeral ngrok URL to port 3000 on our local machine
+
+Once ngrok starts, you should see a status window in terminal that contains your randomized ngrok url. Copy and paste this url but **leave ngrok running!** the url will change when you restart ngrok, and you'll have to reauthenticate your local Earbot app within the Slack app dashboard.
 
 ### Configuring the events listener
 
+Now that our app is up and running, and listening on the right port, we can activate the Slack Events API to start sending events to our local app. Head back to your Earbot app configuration within the Slack API dashboard. On the left hand navigation menu, click on "Event Subscriptions".
+
+Toggle "Enable Events" to on. This will reveal the "Request URL" field. Paste your ngrok URL in this field, and append `/slack/events` to the end of the URL. So, if your ngrok URL is `https://my.ngrok.io` then you'd put `https://my.ngrok.io/slack/events` in this field. The URL should return "Verified" if your Earbot app is running locally along with ngrok.
+
+Add the following Bot User Event:
+- `message.channels`
+
+Click on save and you'll see an alert saying permissions have changed and your Slack app needs to be reinstalled. But, before you do that, head over to "Slash Commands" on the left had nav menu.
+
 ### Adding slash commands
 
-Clone this GitHub repo!
+Add the following two slash command configurations, replacing `my.ngrok.io` with your unique ngrok URL. These commands will allow us to customize which phrases we want listened for.
 
-2. Navigate to the directory you've cloned the repo to locally, and open up ```docker.compose.yml```
+`/listen` command:
+<img width="191" alt="/listen Command" src="assets/listen_add.png">
+
+`/ignore` command:
+<img width="191" alt="/ignore Command" src="assets/listen_delete.png">
+
+Save your changes, and that's it! We're ready to start using Earbot!
+
+### Usage
+
+Earbot will listen for any phrases you send it, and monitor for those phrases in the channel you sent the `/listen` command in. So, if you want to listen for the word `pizza` in the channel `team-lunch`, then you'd add Earbot to the `team-lunch` channel, and send the following command from within said channel:
+
+```
+/listen pizza
+```
+
+Earbot will confirm the phrase and channel to listen for. If you don't want to listen for pizza any more in `team-lunch`, send the following command:
+
+```
+/ignore pizza
+```
+
+Earbot will once again confirm the configuration change.
+
+Whenever a matching message is sent within your Slack workspace in a channel you've configured to listen in, Earbot will send you an alert!
+
+## Credits
+
+Inspired by https://github.com/slackapi/python-slackclient
 
 
