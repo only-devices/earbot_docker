@@ -38,6 +38,44 @@ $ brew install docker docker-compose
 
 4. A text editor of your choice. I prefer [Microsoft Visual Studio Code](https://code.visualstudio.com/).
 
-## Getting started
+### Give your app permissions
 
-1. Clone this GitHub repo
+Create an Earbot app on [Slack](https://api.slack.com/apps?new_app=1).
+
+Navigate to **OAuth & Permissions** on the sidebar to add scopes to your app.
+
+- Scroll down to the **Bot Token Scopes** section and click **Add an OAuth Scope**.
+
+Add the following scopes:
+
+- `channels:history`
+- `chat:write`
+- `commands`
+- `groups:read`
+- `users:read`
+
+Save your changes.
+
+### Install the app in your workspace
+
+- Scroll up to the top of the **OAuth & Permissions** pages and click the green "Install App to Workspace" button.
+
+You'll need to authorize the app for the Bot User permissions.
+
+- Click the "Allow" button.
+
+Copy and paste the Bot User OAuth Access Token somewhere locally after the app is installed. We'll need this soon.
+
+Navigate to the "Basic Information" tab near the top of the left side navigation menu, click it and then scroll down and view and copy and paste the "Signing Secret" as well.
+
+### Getting up and running locally
+
+### Configuring the events listener
+
+### Adding slash commands
+
+Clone this GitHub repo!
+
+2. Navigate to the directory you've cloned the repo to locally, and open up ```docker.compose.yml```
+
+
