@@ -1,9 +1,0 @@
-version: '3'
-services:
-  web:
-    build: .
-    ports:
-      - "3000:3000"
-    environment:
-      SLACK_BOT_TOKEN: YOUR_TOKEN_HERE
-      SLACK_SIGNING_SECRET: YOUR_SECRET_HERE
