@@ -108,10 +108,10 @@ Click on save and you'll see an alert saying permissions have changed and your S
 Add the following two slash command configurations, replacing `my.ngrok.io` with your unique ngrok URL. These commands will allow us to customize which phrases we want listened for.
 
 `/listen` command:
-<img width="191" alt="/listen Command" src="assets/listen_add.png">
+<img width="500" alt="/listen Command" src="assets/listen_add.png">
 
 `/ignore` command:
-<img width="191" alt="/ignore Command" src="assets/listen_delete.png">
+<img width="500" alt="/ignore Command" src="assets/listen_delete.png">
 
 Save your changes, and that's it! We're ready to start using Earbot!
 
